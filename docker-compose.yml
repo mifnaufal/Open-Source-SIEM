@@ -60,6 +60,7 @@ services:
     volumes:
       - grafana_data:/var/lib/grafana
       - ./configs/grafana/datasources:/etc/grafana/provisioning/datasources
+      - ./configs/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
     networks:
       - siem-network
     restart: unless-stopped
