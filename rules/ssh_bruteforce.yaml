@@ -1,0 +1,25 @@
+# SIEM Correlation Rules
+
+# Rule: SSH Brute Force Detection
+id: SSH-BRUTEFORCE-001
+name: SSH Brute Force Detection
+description: Detect multiple failed SSH login attempts within a short time window
+enabled: true
+
+conditions:
+  event_type: authentication_failure
+  destination_port: 22
+
+threshold: 5
+time_window: 60  # seconds
+group_by: source_ip
+
+severity: high
+alert_message: "Possible SSH brute force attack from {source_ip} - {event_count} failed attempts detected"
+
+# Actions (optional)
+actions:
+  - type: telegram
+    enabled: true
+  - type: webhook
+    enabled: false

@@ -1,0 +1,41 @@
+# Sample logs for testing SIEM (Phase 1)
+
+# SSH Failed Login Attempts (brute force simulation)
+Jan 15 10:23:45 server01 sshd[12345]: Failed password for invalid user admin from 192.168.1.100 port 54321 ssh2
+Jan 15 10:23:47 server01 sshd[12346]: Failed password for invalid user root from 192.168.1.100 port 54322 ssh2
+Jan 15 10:23:49 server01 sshd[12347]: Failed password for invalid user test from 192.168.1.100 port 54323 ssh2
+Jan 15 10:23:51 server01 sshd[12348]: Failed password for invalid user user from 192.168.1.100 port 54324 ssh2
+Jan 15 10:23:53 server01 sshd[12349]: Failed password for invalid user guest from 192.168.1.100 port 54325 ssh2
+Jan 15 10:23:55 server01 sshd[12350]: Failed password for invalid user oracle from 192.168.1.100 port 54326 ssh2
+
+# SSH Successful Login
+Jan 15 10:25:00 server01 sshd[12351]: Accepted publickey for john from 10.0.0.50 port 45678 ssh2
+
+# Apache Access Logs
+192.168.1.50 - - [15/Jan/2024:10:30:00 +0000] "GET /index.html HTTP/1.1" 200 1234
+192.168.1.51 - - [15/Jan/2024:10:30:01 +0000] "GET /admin.php HTTP/1.1" 404 567
+192.168.1.52 - - [15/Jan/2024:10:30:02 +0000] "POST /login.php HTTP/1.1" 500 890
+192.168.1.53 - - [15/Jan/2024:10:30:03 +0000] "GET /../../etc/passwd HTTP/1.1" 403 123
+
+# CEF Format Logs (from firewall/security appliance)
+CEF:0|SecurityVendor|Firewall|1.0|100|Malware Detected|9|src=192.168.1.200 dst=10.0.0.100 spt=12345 dpt=443
+CEF:0|SecurityVendor|IDS|2.0|200|SQL Injection Attempt|8|src=192.168.1.201 dst=10.0.0.101 spt=23456 dpt=80
+CEF:0|SecurityVendor|WAF|1.5|300|XSS Attack Blocked|7|src=192.168.1.202 dst=10.0.0.102 spt=34567 dpt=443
+
+# Generic Syslog Messages
+Jan 15 10:35:00 server02 kernel: [UFW BLOCK] IN=eth0 OUT= MAC=00:00:00:00:00:00 SRC=192.168.1.150 DST=10.0.0.1 PROTO=TCP DPT=22
+Jan 15 10:35:10 server02 systemd[1]: Started Daily apt download activities.
+Jan 15 10:35:20 server02 cron[9876]: (root) CMD (/usr/local/bin/backup.sh)
+
+# JSON Format Logs
+{"timestamp": "2024-01-15T10:40:00Z", "source_ip": "192.168.1.175", "destination_ip": "10.0.0.50", "source_port": 45000, "destination_port": 3306, "protocol": "TCP", "event_type": "database_access", "severity": "info", "message": "MySQL connection established", "source_host": "db-server"}
+{"timestamp": "2024-01-15T10:40:05Z", "source_ip": "192.168.1.176", "destination_ip": "10.0.0.50", "source_port": 45001, "destination_port": 3306, "protocol": "TCP", "event_type": "database_error", "severity": "high", "message": "Multiple failed database authentication attempts", "source_host": "db-server"}
+
+# More SSH failures from different IP (to test correlation)
+Jan 15 10:45:00 server03 sshd[22345]: Failed password for root from 203.0.113.50 port 55001 ssh2
+Jan 15 10:45:02 server03 sshd[22346]: Failed password for root from 203.0.113.50 port 55002 ssh2
+Jan 15 10:45:04 server03 sshd[22347]: Failed password for root from 203.0.113.50 port 55003 ssh2
+Jan 15 10:45:06 server03 sshd[22348]: Failed password for root from 203.0.113.50 port 55004 ssh2
+Jan 15 10:45:08 server03 sshd[22349]: Failed password for root from 203.0.113.50 port 55005 ssh2
+Jan 15 10:45:10 server03 sshd[22350]: Failed password for root from 203.0.113.50 port 55006 ssh2
+Jan 15 10:45:12 server03 sshd[22351]: Failed password for root from 203.0.113.50 port 55007 ssh2

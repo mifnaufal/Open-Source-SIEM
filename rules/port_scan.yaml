@@ -1,0 +1,22 @@
+# Rule: Port Scan Detection
+id: PORT-SCAN-001
+name: Port Scan Detection
+description: Detect potential port scanning activity from a single source IP
+enabled: true
+
+conditions:
+  protocol: TCP
+
+threshold: 10
+time_window: 60  # seconds
+group_by: source_ip
+unique_field: destination_port  # Count unique destination ports
+
+severity: medium
+alert_message: "Possible port scan from {source_ip} - {event_count} different ports scanned"
+
+actions:
+  - type: telegram
+    enabled: true
+  - type: email
+    enabled: false

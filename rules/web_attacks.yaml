@@ -1,0 +1,42 @@
+# Rule: High Severity Event Detection
+id: HIGH-SEVERITY-001
+name: High Severity Event Alert
+description: Alert on any high or critical severity events
+enabled: true
+
+conditions:
+  severity: high
+
+threshold: 1
+time_window: 1  # seconds (immediate)
+group_by: event_type
+
+severity: high
+alert_message: "High severity event detected: {event_type} - {message}"
+
+actions:
+  - type: telegram
+    enabled: true
+  - type: webhook
+    enabled: true
+
+---
+# Rule: Web Application Attack Detection
+id: WEB-ATTACK-001
+name: Web Application Attack Detection
+description: Detect common web application attacks (SQL injection, XSS, path traversal)
+enabled: true
+
+conditions:
+  protocol: HTTP
+
+threshold: 1
+time_window: 60
+group_by: source_ip
+
+severity: high
+alert_message: "Possible web attack from {source_ip}: {message}"
+
+actions:
+  - type: telegram
+    enabled: true
